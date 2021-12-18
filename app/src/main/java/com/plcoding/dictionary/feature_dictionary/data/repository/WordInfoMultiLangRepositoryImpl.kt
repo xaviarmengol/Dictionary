@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class WordInfoRepositoryImpl(
+class WordInfoMultiLangRepositoryImpl(
     private val api: DictionaryApi,
     private val dao: WordInfoDao
 ) : WordInfoRepository {
@@ -20,7 +20,7 @@ class WordInfoRepositoryImpl(
 
         emit(Resource.Loading())
 
-        val wordInfos = dao.getWordInfos(word).map {it.toWordInfo()}
+        val wordInfos = dao.getWordInfosWithLang(word, lang).map {it.toWordInfo()}
         emit(Resource.Loading(data = wordInfos))
 
         try {
@@ -41,9 +41,9 @@ class WordInfoRepositoryImpl(
             ))
         }
 
-        // TODO: 12/12/2021 Check why it is not inside TRY block 
         val newWordInfos = dao.getWordInfos(word).map{it.toWordInfo()}
         emit (Resource.Success(newWordInfos))
+
 
     }
 

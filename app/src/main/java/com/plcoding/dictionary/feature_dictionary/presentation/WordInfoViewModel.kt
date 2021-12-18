@@ -39,7 +39,7 @@ class WordInfoViewModel @Inject constructor(
 
             delay(500L)
 
-            getWordInfo(query).onEach { result ->
+            getWordInfo(query, "es").onEach { result ->
                 when (result) {
                     is Resource.Success -> {
                         _state.value = state.value.copy(

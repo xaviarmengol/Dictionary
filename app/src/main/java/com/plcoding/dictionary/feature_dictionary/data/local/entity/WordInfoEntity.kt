@@ -5,9 +5,9 @@ import androidx.room.PrimaryKey
 import com.plcoding.dictionary.feature_dictionary.domain.model.Meaning
 import com.plcoding.dictionary.feature_dictionary.domain.model.WordInfo
 
-
 @Entity
 data class WordInfoEntity (
+    val lang: String,
     val word: String,
     val phonetic: String,
     val origin: String,
@@ -16,6 +16,7 @@ data class WordInfoEntity (
 ) {
     fun toWordInfo () : WordInfo {
         return WordInfo(
+            lang = lang,
             meanings = meanings,
             origin = origin,
             phonetic = phonetic,

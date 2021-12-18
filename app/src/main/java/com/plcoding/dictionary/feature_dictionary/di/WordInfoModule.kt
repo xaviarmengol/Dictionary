@@ -6,7 +6,7 @@ import com.google.gson.Gson
 import com.plcoding.dictionary.feature_dictionary.data.local.Converters
 import com.plcoding.dictionary.feature_dictionary.data.local.WordInfoDatabase
 import com.plcoding.dictionary.feature_dictionary.data.remote.DictionaryApi
-import com.plcoding.dictionary.feature_dictionary.data.repository.WordInfoRepositoryImpl
+import com.plcoding.dictionary.feature_dictionary.data.repository.WordInfoMultiLangRepositoryImpl
 import com.plcoding.dictionary.feature_dictionary.data.util.GsonParser
 import com.plcoding.dictionary.feature_dictionary.domain.repository.WordInfoRepository
 import com.plcoding.dictionary.feature_dictionary.domain.use_cases.GetWordInfoUseCase
@@ -28,13 +28,14 @@ object WordInfoModule {
        return GetWordInfoUseCase(repository)
    }
 
+
     @Provides
     @Singleton
     fun providesWordInfoRepository(
         db: WordInfoDatabase,
         api: DictionaryApi
     ) : WordInfoRepository{
-        return WordInfoRepositoryImpl(api, db.dao)
+        return WordInfoMultiLangRepositoryImpl(api, db.dao) // Changed from simple to MultiLang implementation
     }
 
     @Provides
@@ -56,5 +57,6 @@ object WordInfoModule {
             .build()
             .create(DictionaryApi::class.java)
     }
+
 
 }

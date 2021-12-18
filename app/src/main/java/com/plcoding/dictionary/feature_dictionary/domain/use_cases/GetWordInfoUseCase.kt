@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.flow
 class GetWordInfoUseCase (
     private val repository: WordInfoRepository
 ) {
-    operator fun invoke(word: String): Flow<Resource<List<WordInfo>>> {
+    operator fun invoke(word: String, lang: String = "en"): Flow<Resource<List<WordInfo>>> {
         if (word.isBlank()) {
             return flow{ }
         }
 
-        return repository.getWordInfo(word)
+        return repository.getWordInfo(word, lang)
     }
 
 }
