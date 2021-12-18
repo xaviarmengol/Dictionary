@@ -26,8 +26,8 @@ class WordInfoMultiLangRepositoryImpl(
         try {
             val remoteWordInfos = api.getWordInfo(word = word, lang = lang)
 
-            dao.deleteWordInfos(remoteWordInfos.map{it.word})
-            dao.insertWordInfos(remoteWordInfos.map{it.toWordInfosEntity()})
+            dao.deleteWordInfosWithLang(remoteWordInfos.map{it.word}, lang)
+            dao.insertWordInfos(remoteWordInfos.map{it.toWordInfosEntity(lang = lang)})
 
         } catch (e: HttpException) {
             emit(Resource.Error(
@@ -41,9 +41,8 @@ class WordInfoMultiLangRepositoryImpl(
             ))
         }
 
-        val newWordInfos = dao.getWordInfos(word).map{it.toWordInfo()}
+        val newWordInfos = dao.getWordInfosWithLang(word, lang).map{it.toWordInfo()}
         emit (Resource.Success(newWordInfos))
-
 
     }
 

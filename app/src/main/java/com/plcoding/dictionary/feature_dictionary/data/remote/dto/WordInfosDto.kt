@@ -10,8 +10,9 @@ data class WordInfosDto(
     val phonetics: List<PhoneticDto>,
     val word: String
 ) {
-    fun toWordInfosEntity() : WordInfoEntity {
+    fun toWordInfosEntity(lang: String = "en") : WordInfoEntity {
         return WordInfoEntity(
+            lang = lang,
             meanings = meanings.map{it.toMeaning()},
             origin = origin?:"",
             phonetic = phonetic?:"",

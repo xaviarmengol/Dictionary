@@ -12,6 +12,7 @@ interface WordInfoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWordInfos(infos: List<WordInfoEntity>)
 
+
     @Query("DELETE FROM wordinfoentity WHERE word IN (:words)")
     suspend fun deleteWordInfos(words: List<String>)
 
@@ -21,17 +22,14 @@ interface WordInfoDao {
     @Query("SELECT * FROM wordinfoentity WHERE word LIKE '%' || :word || '%'")
     suspend fun getLikeWordInfos(word: String): List<WordInfoEntity>
 
-    /*
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWordInfosWithLang(infos: List<WordInfoEntity>)
 
-     */
-
-
-    @Query("SELECT * FROM wordinfoentity WHERE word IS :word AND lang IS :lang")
+    @Query("SELECT * FROM wordinfoentity WHERE word = :word AND lang = :lang")
     suspend fun getWordInfosWithLang(word: String, lang: String): List<WordInfoEntity>
 
-    @Query("DELETE FROM wordinfoentity WHERE word IN (:words) AND lang IS :lang")
+    @Query("DELETE FROM wordinfoentity WHERE word IN (:words) AND lang = :lang")
     suspend fun deleteWordInfosWithLang(words: List<String>, lang: String)
+
+    @Query("SELECT * FROM wordinfoentity WHERE word LIKE '%' || :word || '%' AND lang = :lang")
+    suspend fun getLikeWordInfosWithLang(word: String, lang: String): List<WordInfoEntity>
 
 }
