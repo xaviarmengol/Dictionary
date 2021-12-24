@@ -14,6 +14,7 @@ import com.plcoding.dictionary.feature_dictionary.presentation.WordInfoItem
 import com.plcoding.dictionary.feature_dictionary.presentation.WordInfoViewModel
 import kotlinx.coroutines.flow.collectLatest
 
+
 @Composable
 fun MainScreen() {
     val viewModel: WordInfoViewModel = hiltViewModel()
