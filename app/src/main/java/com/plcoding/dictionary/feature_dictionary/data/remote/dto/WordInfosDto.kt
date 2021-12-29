@@ -1,7 +1,6 @@
 package com.plcoding.dictionary.feature_dictionary.data.remote.dto
 
 import com.plcoding.dictionary.feature_dictionary.data.local.entity.WordInfoEntity
-import com.plcoding.dictionary.feature_dictionary.domain.model.WordInfo
 
 data class WordInfosDto(
     val meanings: List<MeaningDto>,
@@ -10,7 +9,7 @@ data class WordInfosDto(
     val phonetics: List<PhoneticDto>,
     val word: String
 ) {
-    fun toWordInfosEntity(lang: String = "en") : WordInfoEntity {
+    fun toWordInfosEntity(lang: String) : WordInfoEntity {
         return WordInfoEntity(
             lang = lang,
             meanings = meanings.map{it.toMeaning()},

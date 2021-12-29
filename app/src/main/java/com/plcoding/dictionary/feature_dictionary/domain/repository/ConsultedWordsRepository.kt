@@ -4,8 +4,8 @@ import com.plcoding.dictionary.core.util.Resource
 import com.plcoding.dictionary.feature_dictionary.domain.model.WordInfo
 import kotlinx.coroutines.flow.Flow
 
-interface WordInfoRepository {
+interface ConsultedWordsRepository {
+    fun getWords(lang: String) : Flow<Resource<List<WordInfo>>>
 
-    fun getWordInfo(word: String, lang: String) : Flow<Resource<List<WordInfo>>>
-
+    suspend fun deleteWords(lang: String)
 }

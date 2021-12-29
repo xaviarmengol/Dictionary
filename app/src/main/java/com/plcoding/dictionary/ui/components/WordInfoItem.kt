@@ -34,7 +34,9 @@ fun WordInfoItem(
                 Text(text = "${i + 1}. ${definition.definition}")
                 Spacer(modifier = Modifier.height(8.dp))
                 definition.example?.let { example ->
-                    Text(text = "Example: $example")
+                    if (example != "") {
+                        Text(text = "Example: $example")
+                    }
                 }
                 Spacer(modifier = Modifier.height(8.dp))
             }

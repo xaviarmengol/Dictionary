@@ -27,8 +27,7 @@ class SettingsViewModel @Inject constructor(
 
     init {
 
-        // TODO: 19/12/2021 Fake initialization not working well
-        // Dispatcher should be injected and replaced with -> Dispatchers.IO when used DB of file
+        // TODO: Dispatcher should be injected and replaced with -> Dispatchers.IO when used DB of file
 
         viewModelScope.launch(Dispatchers.Main) {
 
@@ -42,15 +41,9 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setSettings(lang: String, backGroundColor: Color) {
-        viewModelScope.launch(Dispatchers.IO) {
-            setSettingsUseCase(Settings(lang, backGroundColor))
-        }
-        _settings.value = Settings(lang, backGroundColor)
-    }
 
     fun setSettings(settings: Settings) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             setSettingsUseCase(settings)
         }
         _settings.value = settings

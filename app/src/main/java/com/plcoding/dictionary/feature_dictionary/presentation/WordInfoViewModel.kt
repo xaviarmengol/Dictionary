@@ -1,11 +1,14 @@
 package com.plcoding.dictionary.feature_dictionary.presentation
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.dictionary.core.util.Resource
 import com.plcoding.dictionary.feature_dictionary.domain.use_cases.GetWordInfoUseCase
+import com.plcoding.dictionary.feature_settings.domain.model.Settings
+import com.plcoding.dictionary.feature_settings.domain.use_cases.GetSettingsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,8 +21,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WordInfoViewModel @Inject constructor(
-    private val getWordInfo: GetWordInfoUseCase
+    private val getWordInfo: GetWordInfoUseCase,
+    private val getSettingsUseCase: GetSettingsUseCase
 ) : ViewModel() {
+
+    val TAG = "WordInfoViewModel"
 
     private val _searchQuery = mutableStateOf("")
     val searchQuery: State<String> = _searchQuery
@@ -30,6 +36,25 @@ class WordInfoViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UIEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
+    private var settings = Settings()
+
+    init{
+
+        // TODO: Dispatcher should be injected and replaced with -> Dispatchers.IO when used DB of file
+        viewModelScope.launch() {
+            try {
+                settings = getSettingsUseCase()
+
+            } catch (e: Error) {
+                _eventFlow.emit(UIEvent.ShowSnackbar("Error loading settings"))
+                Log.e(TAG,"init: Error loading settings: ${e.localizedMessage}",
+                )
+            }
+        }
+
+    }
+
+
     private var searchJob: Job? = null
 
     fun onSearch(query: String) {
@@ -39,7 +64,9 @@ class WordInfoViewModel @Inject constructor(
 
             delay(500L)
 
-            getWordInfo(query, "en").onEach { result ->
+            settings = getSettingsUseCase()
+
+            getWordInfo(query, settings.lang).onEach { result ->
                 when (result) {
                     is Resource.Success -> {
                         _state.value = state.value.copy(

@@ -6,9 +6,13 @@ import com.google.gson.Gson
 import com.plcoding.dictionary.feature_dictionary.data.local.Converters
 import com.plcoding.dictionary.feature_dictionary.data.local.WordInfoDatabase
 import com.plcoding.dictionary.feature_dictionary.data.remote.DictionaryApi
-import com.plcoding.dictionary.feature_dictionary.data.repository.WordInfoMultiLangRepositoryImpl
+import com.plcoding.dictionary.feature_dictionary.data.repository.LocalWordsRepositoryImpl
+import com.plcoding.dictionary.feature_dictionary.data.repository.WordInfoRepositoryImpl
 import com.plcoding.dictionary.feature_dictionary.data.util.GsonParser
+import com.plcoding.dictionary.feature_dictionary.domain.repository.ConsultedWordsRepository
 import com.plcoding.dictionary.feature_dictionary.domain.repository.WordInfoRepository
+import com.plcoding.dictionary.feature_dictionary.domain.use_cases.DeleteConsultedWordsUseCase
+import com.plcoding.dictionary.feature_dictionary.domain.use_cases.GetConsultedWordsUseCase
 import com.plcoding.dictionary.feature_dictionary.domain.use_cases.GetWordInfoUseCase
 import dagger.Module
 import dagger.Provides
@@ -28,6 +32,19 @@ object WordInfoModule {
        return GetWordInfoUseCase(repository)
    }
 
+    @Provides
+    @Singleton
+    fun providesConsultedWordsUseCase(repository: ConsultedWordsRepository): GetConsultedWordsUseCase {
+        return GetConsultedWordsUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun providesDeleteConsultedWordsUseCase(repository: ConsultedWordsRepository): DeleteConsultedWordsUseCase {
+        return DeleteConsultedWordsUseCase(repository)
+    }
+
+
 
     @Provides
     @Singleton
@@ -35,8 +52,17 @@ object WordInfoModule {
         db: WordInfoDatabase,
         api: DictionaryApi
     ) : WordInfoRepository{
-        return WordInfoMultiLangRepositoryImpl(api, db.dao) // Changed from simple to MultiLang implementation
+        return WordInfoRepositoryImpl(api, db.dao) // Changed from simple to MultiLang implementation
     }
+
+    @Provides
+    @Singleton
+    fun providesLocalWordsRepository(
+        db: WordInfoDatabase
+    ) : ConsultedWordsRepository{
+        return LocalWordsRepositoryImpl(db.dao) // Changed from simple to MultiLang implementation
+    }
+
 
     @Provides
     @Singleton
@@ -57,6 +83,8 @@ object WordInfoModule {
             .build()
             .create(DictionaryApi::class.java)
     }
+
+
 
 
 }

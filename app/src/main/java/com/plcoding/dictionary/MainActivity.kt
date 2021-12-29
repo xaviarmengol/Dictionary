@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.dictionary.feature_dictionary.presentation.WordInfoViewModel
+import com.plcoding.dictionary.ui.NavScreen
 import com.plcoding.dictionary.ui.theme.DictionaryTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +26,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DictionaryTheme {
-                SettingScreen()
+                NavScreen()
             }
         }
     }
