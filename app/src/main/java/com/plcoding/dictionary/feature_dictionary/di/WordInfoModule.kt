@@ -84,7 +84,4 @@ object WordInfoModule {
             .create(DictionaryApi::class.java)
     }
 
-
-
-
 }

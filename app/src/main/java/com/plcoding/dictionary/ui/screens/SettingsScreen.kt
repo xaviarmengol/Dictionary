@@ -63,6 +63,24 @@ fun SettingScreen(navController: NavController) {
 
                 Text(viewModel.settings.value.lang)
 
+                TextField(
+                    value = viewModel.settings.value.photosApiAccessPrivateKey,
+                    onValueChange =
+                    { value ->
+                        val newSettings = viewModel.settings.value.copy(
+                            photosApiAccessPrivateKey = value
+                        )
+                        viewModel.setSettings(newSettings)
+                    },
+
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = {
+                        Text(text = "insert private key...")
+                    }
+                )
+
+                Text(viewModel.settings.value.photosApiAccessPrivateKey)
+
                 Text(viewModel.settings.value.backgroundColor.toString())
 
             }

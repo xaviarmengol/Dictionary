@@ -9,8 +9,8 @@ import com.plcoding.dictionary.core.util.Resource
 import com.plcoding.dictionary.feature_dictionary.domain.use_cases.DeleteConsultedWordsUseCase
 import com.plcoding.dictionary.feature_dictionary.domain.use_cases.GetConsultedWordsUseCase
 import com.plcoding.dictionary.feature_settings.domain.use_cases.GetSettingsUseCase
+import com.plcoding.dictionary.ui.uievents.UIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -87,9 +87,13 @@ class ConsultedWordsViewModel @Inject constructor(
 
     }
 
-
-    sealed class UIEvent {
-        data class ShowSnackbar(val message: String) : UIEvent()
+    fun onNavigateBack() {
+        viewModelScope.launch {
+            _eventFlow.emit(
+                UIEvent.NavigateBack
+            )
+        }
     }
+
 
 }

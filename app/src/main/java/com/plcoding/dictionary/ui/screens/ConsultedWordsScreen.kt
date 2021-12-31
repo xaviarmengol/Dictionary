@@ -15,6 +15,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.plcoding.dictionary.feature_dictionary.presentation.ConsultedWordsViewModel
 import com.plcoding.dictionary.ui.components.AppBar
+import com.plcoding.dictionary.ui.uievents.GetEventsInScreen
 
 @Composable
 fun ConsultedWordsScreen(navController: NavController) {
@@ -23,6 +24,13 @@ fun ConsultedWordsScreen(navController: NavController) {
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
 
+    GetEventsInScreen(
+        flow = viewModel.eventFlow,
+        scaffoldState = scaffoldState,
+        navController = navController
+    )
+
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         scaffoldState = scaffoldState,
@@ -30,7 +38,7 @@ fun ConsultedWordsScreen(navController: NavController) {
             AppBar(
                 title = "Consulted Words",
                 icon = Icons.Default.ArrowBack,
-                onClick = { navController.popBackStack() },
+                onClick = { viewModel.onNavigateBack()},
                 iconAction1 = Icons.Default.Clear,
                 onClickAction1 = { viewModel.onDeleteWordsWithLang()}
             )

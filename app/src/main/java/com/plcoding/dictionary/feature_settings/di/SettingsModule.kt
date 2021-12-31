@@ -43,7 +43,8 @@ object SettingsModule {
         return SettingsDaoMemory(
             Settings(
                 lang = "es",
-                backgroundColor = Color(0)
+                backgroundColor = Color(0),
+                photosApiAccessPrivateKey = "API_KEY"
             )
         )
     }
